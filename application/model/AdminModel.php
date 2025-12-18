@@ -92,4 +92,33 @@ class AdminModel
             return true;
         }
     }
+
+    
+
+
+    public static function setAccountType($typeId = null, $userId = null)
+    {
+        
+        if (!$typeId || !$userId) {
+            return false;
+        }
+
+        $db = DatabaseFactory::getFactory()->getConnection();
+
+        if ($userId == Session::get('user_id')) {
+            Session::add('feedback_negative', 'Eigener Account kann nicht geändert werden.');
+            return false;
+        }
+
+        $query = $db->prepare("UPDATE users SET user_account_type = :typeId  WHERE user_id = :userId LIMIT 1");
+        $query->execute([
+            ':typeId' => $typeId,
+            ':userId' => $userId,
+        ]);
+
+        if ($query->rowCount() == 1) {
+            Session::add('feedback_positive', 'Account erfolgreich geändert.');
+            return true;
+        }
+    }
 }

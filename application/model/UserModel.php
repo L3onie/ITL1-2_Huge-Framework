@@ -19,7 +19,7 @@ class UserModel
     {
         $database = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT user_id, user_name, user_email, user_active, user_has_avatar, user_deleted, user_account_typе FROM users";
+        $sql = "SELECT user_id, user_name, user_email, user_active, user_has_avatar, user_deleted, user_account_type FROM users";
         $query = $database->prepare($sql);
         $query->execute();
 
@@ -340,5 +340,39 @@ class UserModel
 
         // return one row (we only have one result or nothing)
         return $query->fetch();
+    }
+
+    public static function getGroupName($type = null)
+    {
+        // just to be safe
+        if (!$type) {
+            return false;
+        }
+        // DB connection
+
+        $db = DatabaseFactory::getFactory()->getConnection();
+        // SQL Query to fetch correct lang for type
+        $query = $db->prepare(
+            "SELECT
+                    group_name
+                    FROM user_groups
+                    WHERE group_id = :ac_type"
+        );
+        $query->execute([':ac_type' => $type]);
+        return $query->fetch()->group_name;
+    }
+
+    public static function getAvailableAccountTypes()
+    {
+        $db = DatabaseFactory::getFactory()->getConnection();
+
+        $query = $db->prepare(
+            "SELECT * FROM user_groups
+                    WHERE group_name != 'TBD'"
+        );
+        $query->execute([]);
+
+        return $query->fetchAll();
+
     }
 }

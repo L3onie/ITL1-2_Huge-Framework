@@ -8,6 +8,23 @@
     <link rel="icon" href="data:;base64,=">
     <!-- CSS -->
     <link rel="stylesheet" href="<?php echo Config::get('URL'); ?>css/style.css" />
+
+    <script
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous">
+    </script>
+    
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-2.0.8/datatables.min.css">
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-2.0.8/datatables.min.js"></script>
+    
+    <script type="text/javascript">
+        console.log("jQuery version: " + $.fn.jquery);
+        $(document).ready(function() {
+            $('.js-table').DataTable();
+        });
+    </script>
+
 </head>
 <body>
     <!-- wrapper, to center website -->
@@ -30,6 +47,9 @@
                 </li>
                 <li <?php if (View::checkForActiveController($filename, "note")) { echo ' class="active" '; } ?> >
                     <a href="<?php echo Config::get('URL'); ?>note/index">My Notes</a>
+                </li>
+                <li <?php if (View::checkForActiveController($filename, "message")) { echo ' class="active" '; } ?> >
+                    <a href="<?php echo Config::get('URL'); ?>message/index">Messages</a>
                 </li>
             <?php } else { ?>
                 <!-- for not logged in users -->
