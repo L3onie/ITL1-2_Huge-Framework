@@ -11,7 +11,7 @@ class MessageModel
      * @param int $empfaenger_id ID des Empfängers
      * @param string $text Inhalt der Nachricht
      * @return bool Erfolg oder Fehler
-     */
+     */ 
     public static function sendMessage($senderId, $empfaengerId, $text)
 {
     if (!$senderId || !$empfaengerId || empty($text)) {

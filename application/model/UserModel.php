@@ -375,4 +375,16 @@ class UserModel
         return $query->fetchAll();
 
     }
+
+    public static function getUserNameById($user_id)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT user_name FROM users WHERE user_id = :user_id LIMIT 1";
+        $query = $database->prepare($sql);
+        $query->execute([':user_id' => $user_id]);
+
+        $result = $query->fetch();
+        return $result ? $result->user_name : null;
+    }
 }

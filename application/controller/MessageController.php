@@ -37,7 +37,8 @@ class MessageController extends Controller
 
         $this->View->render('message/show', [
             'messages' => MessageModel::getConversation($myId, $userId),
-            'partnerId' => $userId
+            'partnerId' => $userId,
+            'partnerName' => UserModel::getUserNameById($userId)
         ]);
 
         // Nachrichten als gelesen markieren

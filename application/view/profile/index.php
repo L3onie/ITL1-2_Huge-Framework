@@ -40,6 +40,12 @@
                         <td>
                             <a href="<?= Config::get('URL') . 'profile/showProfile/' . $user->user_id; ?>">Profile</a>
                         </td>
+                        <td>
+                            <!-- Neuer Chat-Button -->
+                            <a href="<?= Config::get('URL') . 'message/show/' . $user->user_id; ?>" 
+                            style="margin-left:8px; padding:4px 8px; background-color:#1a73e8; color:white; text-decoration:none; border-radius:4px; font-size:12px;">
+                            Chat</a>
+                        </td>
                     </tr>
                 <?php } ?>
             </table>
