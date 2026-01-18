@@ -30,4 +30,11 @@ class TaskController extends Controller
         TaskModel::updateTaskStatus($id, $new_status);
         Redirect::to('task/index');
     }
+
+    // Task entfernen (DELETE)
+    public function delete($id)
+    {
+        TaskModel::deleteTask($id);
+        Redirect::to('task/index');
+    }
 }
