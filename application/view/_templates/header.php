@@ -51,6 +51,9 @@
                 <li <?php if (View::checkForActiveController($filename, "message")) { echo ' class="active" '; } ?> >
                     <a href="<?php echo Config::get('URL'); ?>message/index">Messages</a>
                 </li>
+                <li <?php if (View::checkForActiveController($filename, "task")) { echo ' class="active" '; } ?> >
+                    <a href="<?php echo Config::get('URL'); ?>task/index">Tasks</a>
+                </li>
             <?php } else { ?>
                 <!-- for not logged in users -->
                 <li <?php if (View::checkForActiveControllerAndAction($filename, "login/index")) { echo ' class="active" '; } ?> >
