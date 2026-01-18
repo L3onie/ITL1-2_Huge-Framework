@@ -5,11 +5,10 @@ class TaskController extends Controller
     public function __construct()
     {
         parent::__construct();
-        // Sicherheit: Nur eingeloggte User dürfen das Board sehen
         Auth::checkAuthentication();
     }
 
-    // Zeigt das Kanban Board an (READ)
+    // Zeigt das Board (READ)
     public function index()
     {
         $this->View->render('task/index', array(
@@ -17,24 +16,41 @@ class TaskController extends Controller
         ));
     }
 
-    // Neuen Task erstellen (CREATE)
+    // Seite anzeigen ODER Speichern (CREATE)
     public function create()
     {
-        TaskModel::createTask(Request::post('task_text'));
-        Redirect::to('task/index');
+        if (Request::post('task_text')) {
+            TaskModel::createTask(Request::post('task_text'));
+            Redirect::to('task/index');
+        } else {
+            $this->View->render('task/create');
+        }
     }
 
-    // Status eines Tasks ändern (UPDATE / Status Update)
-    public function updateStatus($id, $new_status)
+    // Seite anzeigen ODER Update ausführen (UPDATE)
+    public function update($id)
     {
-        TaskModel::updateTaskStatus($id, $new_status);
-        Redirect::to('task/index');
+        if (Request::post('task_text')) {
+            TaskModel::updateTask(Request::post('task_id'), Request::post('task_text'));
+            Redirect::to('task/index');
+        } else {
+            $this->View->render('task/edit', array(
+                'task' => TaskModel::getTask($id)
+            ));
+        }
     }
 
     // Task entfernen (DELETE)
     public function delete($id)
     {
         TaskModel::deleteTask($id);
+        Redirect::to('task/index');
+    }
+
+    // Status-Pfeile (Spezial-Aktion)
+    public function updateStatus($id, $new_status)
+    {
+        TaskModel::updateTaskStatus($id, $new_status);
         Redirect::to('task/index');
     }
 }

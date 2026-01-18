@@ -2,6 +2,17 @@
 
 class TaskModel
 {
+    public static function getTask($task_id)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "SELECT id, text, status FROM tasks WHERE id = :task_id LIMIT 1";
+        $query = $database->prepare($sql);
+        $query->execute(array(':task_id' => $task_id));
+
+        return $query->fetch();
+    }
+
     // Alle Tasks des Users holen
     public static function getAllTasks()
     {
@@ -31,6 +42,18 @@ class TaskModel
         return ($query->rowCount() == 1);
     }
 
+    // Task Text aktualisieren
+    public static function updateTask($task_id, $text)
+    {
+        $database = DatabaseFactory::getFactory()->getConnection();
+
+        $sql = "UPDATE tasks SET text = :text WHERE id = :task_id LIMIT 1";
+        $query = $database->prepare($sql);
+        $query->execute(array(':text' => $text, ':task_id' => $task_id));
+
+        return ($query->rowCount() == 1);
+    }
+
     // Status ändern (Verschieben im Kanban)
     public static function updateTaskStatus($id, $new_status)
     {
@@ -39,8 +62,8 @@ class TaskModel
         $sql = "UPDATE tasks SET status = :status WHERE id = :id AND user_id = :user_id LIMIT 1";
         $query = $database->prepare($sql);
         $query->execute(array(
-            ':status' => $new_status, 
-            ':id' => $id, 
+            ':status' => $new_status,
+            ':id' => $id,
             ':user_id' => Session::get('user_id')
         ));
 
