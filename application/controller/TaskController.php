@@ -27,17 +27,18 @@ class TaskController extends Controller
         }
     }
 
-    // Seite anzeigen ODER Update ausführen (UPDATE)
+    // Update Seite anzeigen ODER Update ausführen (UPDATE)
     public function update($id)
     {
-        if (Request::post('task_text')) {
-            TaskModel::updateTask(Request::post('task_id'), Request::post('task_text'));
-            Redirect::to('task/index');
-        } else {
-            $this->View->render('task/edit', array(
-                'task' => TaskModel::getTask($id)
-            ));
-        }
+        $this->View->render('task/update', array(
+            'task' => TaskModel::getTask($id)
+        ));
+    }
+
+    public function updateSave()
+    {
+        TaskModel::updateTask(Request::post('task_id'), Request::post('task_text'));
+        Redirect::to('task/index');
     }
 
     // Task entfernen (DELETE)

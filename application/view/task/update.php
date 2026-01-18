@@ -2,7 +2,7 @@
     <h1>Task bearbeiten</h1>
 
     <div class="box" style="background: #ebecf0; border-radius: 5px; padding: 20px;">
-        <form action="<?= Config::get('URL'); ?>task/update" method="post" style="background: white; padding: 20px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); border-left: 5px solid #444445;">
+        <form action="<?= Config::get('URL'); ?>task/updateSave" method="post" style="background: white; padding: 20px; border-radius: 3px; box-shadow: 0 1px 3px rgba(0,0,0,0.12); border-left: 5px solid #444445;">
             
             <input type="hidden" name="task_id" value="<?= htmlentities($this->task->id); ?>" />
 
