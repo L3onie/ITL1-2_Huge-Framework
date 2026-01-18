@@ -23,4 +23,11 @@ class TaskController extends Controller
         TaskModel::createTask(Request::post('task_text'));
         Redirect::to('task/index');
     }
+
+    // Status eines Tasks ändern (UPDATE / Status Update)
+    public function updateStatus($id, $new_status)
+    {
+        TaskModel::updateTaskStatus($id, $new_status);
+        Redirect::to('task/index');
+    }
 }
