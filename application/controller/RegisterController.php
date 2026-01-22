@@ -50,6 +50,20 @@ class RegisterController extends Controller
      */
     public function register_action()
     {
+
+    $recaptchaResponse = $_POST['g-recaptcha-response'] ?? '';
+
+    $verify = file_get_contents(
+        'https://www.google.com/recaptcha/api/siteverify?secret=' . RECAPTCHA_SECRET_KEY . '&response=' . $recaptchaResponse
+    );
+    $responseData = json_decode($verify);
+
+    if (empty($responseData) || !$responseData->success) {
+        Session::add('feedback_negative', 'Bitte bestätige das reCAPTCHA.');
+        Redirect::to('register/index');
+        exit;
+    }
+    
         $registration_successful = RegistrationModel::registerNewUser();
 
         if ($registration_successful) {

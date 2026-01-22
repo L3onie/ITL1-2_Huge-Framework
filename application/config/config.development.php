@@ -23,6 +23,11 @@ ini_set("display_errors", 1);
  */
 ini_set('session.cookie_httponly', 1);
 
+
+define('RECAPTCHA_SITE_KEY', '6LcCX0ksAAAAAM-0Eaezs2fJIrpIv8oBoBJKB7pd');
+define('RECAPTCHA_SECRET_KEY', '6LcCX0ksAAAAAM2KB15DkRTp0hhMSOmy_5Zs8wH8');
+
+
 /**
  * Returns the full configuration.
  * This is used by the core/Config class.
