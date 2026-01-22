@@ -36,10 +36,6 @@ Beim erfolgreichen bestehen des Tests wird ein haken gesetzt
 
 ![reCAPTCHA Test bestanden](/_pictures/11Ue_reCAPTCHA_Check.png)
 
-Beim erfolgreichen bestehen des Tests wird ein haken gesetzt
-
-![reCAPTCHA Test bestanden](/_pictures/11Ue_reCAPTCHA_Check.png)
-
 Dann kann man einfach auf Register drücken und wenn die reCAPTCHA bestanden wurde wird der nutzer in der Datenbank erstellt
 
 ![reCAPTCHA Test bestanden](/_pictures/11Ue_Register_erfolgreich.png)
