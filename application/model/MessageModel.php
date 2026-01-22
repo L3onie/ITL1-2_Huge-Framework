@@ -20,8 +20,7 @@ class MessageModel
 
     $db = DatabaseFactory::getFactory()->getConnection();
 
-    $sql = "INSERT INTO messages (sender_id, empfaenger_id, message_text)
-            VALUES (:sender, :empfaenger, :text)";
+    $sql = "CALL sp_sendMessage(:sender, :empfaenger, :text)";
 
     $query = $db->prepare($sql);
     $query->execute([
@@ -38,16 +37,7 @@ class MessageModel
 {
     $db = DatabaseFactory::getFactory()->getConnection();
 
-    $sql = "
-        SELECT 
-            IF(sender_id = :uid, empfaenger_id, sender_id) AS partner_id,
-            MAX(timestamp) AS last_message_time,
-            SUBSTRING_INDEX(GROUP_CONCAT(message_text ORDER BY timestamp DESC), ',', 1) AS last_message
-        FROM messages
-        WHERE sender_id = :uid OR empfaenger_id = :uid
-        GROUP BY partner_id
-        ORDER BY last_message_time DESC
-    ";
+    $sql = "CALL sp_getAllConversations(:uid)";
 
     $query = $db->prepare($sql);
     $query->execute([':uid' => $userId]);
@@ -73,11 +63,7 @@ class MessageModel
         $userId = Session::get('user_id');
         $db = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "SELECT *
-                FROM messages
-                WHERE (sender_id = :user_id AND empfaenger_id = :other_id)
-                   OR (sender_id = :other_id AND empfaenger_id = :user_id)
-                ORDER BY timestamp ASC";
+        $sql = "CALL sp_getConversation(:user_id, :other_id)";
 
         $query = $db->prepare($sql);
         $query->execute([
@@ -97,11 +83,7 @@ class MessageModel
     $userId = Session::get('user_id');
     $db = DatabaseFactory::getFactory()->getConnection();
 
-    $sql = "SELECT COUNT(*) AS amount
-            FROM messages
-            WHERE empfaenger_id = :user_id
-              AND sender_id = :partner_id
-              AND gelesen = 0";
+    $sql = "CALL sp_countUnreadMessages(:user_id, :partner_id)";
 
     $query = $db->prepare($sql);
     $query->execute([
@@ -123,10 +105,7 @@ class MessageModel
         $empfaenger_id = Session::get('user_id');
         $db = DatabaseFactory::getFactory()->getConnection();
 
-        $sql = "UPDATE messages
-                SET gelesen = 1
-                WHERE sender_id = :sender_id
-                  AND empfaenger_id = :empfaenger_id";
+        $sql = "CALL sp_markAsRead(:sender_id, :empfaenger_id)";
 
         $query = $db->prepare($sql);
         $query->execute([
